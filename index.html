@@ -11,13 +11,13 @@ $(document).ready(function(){
 	$vm.hosting_path=path;
 	//--------------------------------------------------------
 	var start=function(){
-		$vm.trust_path=['https://vmiis.github.io','https://woolcock-imr.github.io','https://wappsystem.github.io','https://cbs.wappsystem.com','https://rt.woolcock.org.au','https://codepen.io/vmiis'];
+		$vm.trust_path=['https://vmiis.github.io','https://raw.githubusercontent.com/vmiis','https://woolcock-imr.github.io','https://wappsystem.github.io','https://cbs.wappsystem.com','https://rt.woolcock.org.au','https://codepen.io/vmiis'];
 		$vm.reload='';
 		if(window.location.toString().indexOf('reload=1')!=-1){
 			$vm.reload=new Date().getTime().toString();
 		}
 		var url=$vm.hosting_path+'/version.html?_='+new Date().getTime().toString();
-		console.log('load version from '+url);
+		console.log('loading '+url);
 		$.get(url,function(new_ver){ $vm.version=new_ver.trim(); load_config();},'text')
 	}
 	if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost')	$vm.debug =true;
@@ -30,7 +30,7 @@ $(document).ready(function(){
 		var txt=localStorage.getItem(url+"_txt");
 		//------------------------------------------
 		if(ver!=$vm.version || txt===null || $vm.debug===true || $vm.reload!=''){
-			console.log('load config from '+url+'?_='+$vm.version+$vm.reload);
+			console.log('loading '+url+'?_='+$vm.version+$vm.reload);
 			$.get(url+'?_='+$vm.version+$vm.reload,function(data){
 				localStorage.setItem(url+"_txt",data);
 				localStorage.setItem(url+"_ver",$vm.version);
@@ -87,7 +87,7 @@ $(document).ready(function(){
 		var txt=localStorage.getItem(url+"_txt");
 		//------------------------------------------
 		if(ver!=$vm.version || txt===null || $vm.debug===true || $vm.reload!=''){
-			console.log('load library from '+url+'?_='+$vm.version+$vm.reload);
+			console.log('loading '+url+'?_='+$vm.version+$vm.reload);
 			$.get(url+'?_='+$vm.version+$vm.reload,function(data){
 				localStorage.setItem(url+"_txt",data);
 				localStorage.setItem(url+"_ver",$vm.version);
@@ -100,13 +100,24 @@ $(document).ready(function(){
 	}
 	//--------------------------------------------------------
 	$vm.url=function(text){
+		text=text.replace(/__BASE__\/vmiis\/Common-Code\//g,'__PARTS__/');
+		text=text.replace(/__LIB__\/vmiis\/Common-Code\//g,'__PARTS__/');
 		text=text.replace(/__BASE__\//g,$vm.library_path+'/');
 		text=text.replace(/__LIB__\//g,$vm.library_path+'/');
 		text=text.replace(/__PARTS__\//g,$vm.parts_path+'/');
 		text=text.replace(/__HOST__\//g,$vm.hosting_path+'/');
 		text=text.replace(/__VER__/g,$vm.version);
 		text=text.replace(/__IMAGE__\//g,$vm.image_path+'/');
+		if(window.location.toString().indexOf('test=1')!=-1){
+			//use latest unstable version (master branch, not gh-pages branch)
+			text=text.replace('https://vmiis.github.io/api','https://raw.githubusercontent.com/vmiis/api/master');
+			text=text.replace('https://vmiis.github.io/framework','https://raw.githubusercontent.com/vmiis/framework/master');
+			text=text.replace('https://vmiis.github.io/parts','https://raw.githubusercontent.com/vmiis/parts/master');
+			text=text.replace('https://vmiis.github.io/modules','https://raw.githubusercontent.com/vmiis/modules/master');
+			text=text.replace('http://127.0.0.1:8000/vmiis/parts','https://raw.githubusercontent.com/vmiis/parts/master');
+		}
 		if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
+			//use local version
 			text=text.replace(/https:\/\/vmiis.github.io/g,window.location.protocol+'//'+window.location.host+'/vmiis');
 			text=text.replace(/https:\/\/wappsystem.github.io/g,window.location.protocol+'//'+window.location.host+'/wappsystem');
 			text=text.replace(/https:\/\/woolcock-imr.github.io/g,window.location.protocol+'//'+window.location.host+'/woolcock-imr');
@@ -144,13 +155,13 @@ var last_last=function(){
     if(jsN===3){
 		$vm.check_and_clear_localstorage();
         //-------------------------------------
-        $vm.module_list['alert_dialog_module']={table_id:'--------',url:'__LIB__/vmiis/Common-Code/dialog/alert_dialog_module.html'};
+        $vm.module_list['alert_dialog_module']={table_id:'--------',url:'__PARTS__/dialog/alert_dialog_module.html'};
         $vm.load_module_by_name('alert_dialog_module','',{})
         //-------------------------------------
-        $vm.module_list['_system_export_dialog_module']={table_id:'',url:'__LIB__/vmiis/Common-Code/dialog/export_dialog_module.html'};
+        $vm.module_list['_system_export_dialog_module']={table_id:'',url:'__PARTS__/dialog/export_dialog_module.html'};
         $vm.load_module_by_name('_system_export_dialog_module','',{})
         //-------------------------------------
-        $vm.module_list['_system_import_dialog_module']={table_id:'',url:'__LIB__/vmiis/Common-Code/dialog/import_dialog_module.html'};
+        $vm.module_list['_system_import_dialog_module']={table_id:'',url:'__PARTS__/dialog/import_dialog_module.html'};
         $vm.load_module_by_name('_system_import_dialog_module','',{})
         //-------------------------------------
         $vm.ready=1;
