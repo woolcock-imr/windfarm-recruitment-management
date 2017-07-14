@@ -1,0 +1,26 @@
+<section>
+    VmInclude:__PARTS__/grid/grid.html
+</section>
+<script>
+    function F__ID(){
+        //-------------------------------------
+        VmInclude:__PARTS__/grid/grid.js
+        VmInclude:__PARTS__/style/ease-in-out.2.js
+        //-------------------------------------
+		var fields="Screening_Number,Clinical Screening Number|Screening_ID,Recruitment_ID,First_Name,Last_Name,Phone_Number,Email,Postcode,Location,Study_find,Study_find_other";
+        _fields="_Form,"+fields+",Submit Date|DateTime,Submitted by|Author,_Delete";
+        //-------------------------------------
+        $('#D__ID').on('load',function(){  _set_req(); _request_data(); })
+        //-------------------------------------
+		_before_submit=function(record,dbv){
+	        dbv.S1=record.Email;
+	        dbv.S2=record.Email;
+	        return true;
+	    };
+	    //-------------------------------------
+    }
+</script>
+<style>
+    VmInclude:__PARTS__/grid/grid.css
+    VmInclude:__PARTS__/style/ease-in-out.2.css
+</style>
