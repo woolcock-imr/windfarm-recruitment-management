@@ -79,7 +79,7 @@ $(document).ready(function(){
 	}
 	//--------------------------------------------------------
 	var load_vmapi   =function(){ load_js($vm.url('https://vmiis.github.io/api/distribution/vmapi.min.js'),load_vm);	}
-	var load_vm      =function(){ load_js($vm.url('https://vmiis.github.io/framework/distribution/vmframework.js'),init);}
+	var load_vm      =function(){ load_js($vm.url('https://vmiis.github.io/framework/distribution/vmframework.min.js'),init);}
 	var init         =function(){ $vm.init({callback:function(){$vm.load_first_module({url:$vm.hosting_path+'/layout.html'}); last();  }});	}
 	//--------------------------------------------------------
 	var load_js=function(url,next){
