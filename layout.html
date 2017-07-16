@@ -29,11 +29,11 @@
 <script>
 function F__ID(){
 	//------------------------------------
-	if($vm.server=='development') $('#database_d__ID').show();
-	else if($vm.server=='production') $('#database_p__ID').show();
-	//------------------------------------
 	document.title="Registration Management";
 	$('#footer__ID').html("Copyright © "+(new Date()).getFullYear()+", Woolcock Institute of Medical Research");
+	//------------------------------------
+	if($vm.server=='development') $('#database_d__ID').show();
+	else if($vm.server=='production') $('#database_p__ID').show();
 	//------------------------------------
 	if( $('#slider__ID').length!==0 ){
 	    var slideWidth=window.innerWidth;
