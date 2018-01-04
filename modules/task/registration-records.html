@@ -1,5 +1,5 @@
 <section>
-    VmInclude:__COMPONENT__/grid/grid.html
+    VmInclude:__COMPONENT__/grid/grid.v3.html
 </section>
 <script>
     function F__ID(){
@@ -7,8 +7,14 @@
         VmInclude:__COMPONENT__/grid/grid.v3.js
 		_json='';
         //-------------------------------------
-		_fields="_Form|form_module,Screening_Number,Clinical Screening Number|Screening_ID,Registration_ID|UID,Screening_Participant_ID|spUID,First_Name,Last_Name,Phone_Number,Email,Postcode,Location,Study_find,Study_find_other";
+		_fields ="_Form|form_module,Screening_Number,Clinical Screening Number|Screening_ID,_gridHidden|Registration_ID|UID,Screening_Participant_ID|spUID";
+		_fields+=",First_Name,Last_Name,Phone_Number,Email,Postcode";
+		_fields+=",_gridHidden|Study_find,_gridHidden|Study_find_other";
+		_fields+=",_gridHidden|Comments";
         _fields+=",Submit Date|DateTime,Submitted by|Author,_Delete";
+
+		_fields_e="Screening_Number,Clinical Screening Number|Screening_ID,Registration_ID|UID,Screening_Participant_ID|spUID";
+		_fields_e+="First_Name,Last_Name,Phone_Number,Email,Postcode,Study_find,Study_find_other,Comments,Submit Date|DateTime,Submitted by|Author";
         //-------------------------------------
         _cell_render=function(records,I,field,td,set_value,source){
             switch(field){
