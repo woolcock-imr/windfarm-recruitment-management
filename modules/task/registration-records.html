@@ -8,10 +8,11 @@
 		_json='';
         //-------------------------------------
 		_fields ="_Form|form_module,Screening_Number,Clinical Screening Number|Screening_ID,_gridHidden|Registration_ID|UID,Screening_Participant_ID|spUID";
+																								          /*8858/                        /*9058*/
 		_fields+=",First_Name,Last_Name,Phone_Number,Email,Postcode";
 		_fields+=",_gridHidden|Study_find,_gridHidden|Study_find_other";
 		_fields+=",_gridHidden|Comments";
-        _fields+=",Submit Date|DateTime,Submitted by|Author,_Delete";
+        _fields+=",Submit Date|DateTime,Submitted by|Author";
 
 		_fields_e="Screening_Number,Clinical Screening Number|Screening_ID,Registration_ID|UID,Screening_Participant_ID|spUID";
 		_fields_e+="First_Name,Last_Name,Phone_Number,Email,Postcode,Study_find,Study_find_other,Comments,Submit Date|DateTime,Submitted by|Author";
@@ -69,11 +70,22 @@
         $('#D__ID').on('load',function(){  _set_req(); _request_data();  })
         $('#D__ID').on('back',function(){  _set_req(); _request_data(); })
         //-------------------------------------
+		/*
 		_set_req=function(){
 			var sql="with screening_participant as (select spS1=S1,spUID=UID from [TABLE-20009058] )";
-		    sql+=",tb as (select spUID,Information,ID,UID,PUID,DateTime,Author,RowNum=row_number() over (order by ID DESC) from [TABLE-"+_db_pid+"-@S1] join screening_participant on spS1=convert(varchar,UID) )";
-		    sql+="select spUID,Information,ID,UID,PUID,DateTime,Author,RowNum from tb where RowNum between @I6 and @I7";
-		    var sql_n="select count(ID) from [TABLE-"+_db_pid+"-@S1]";
+		    sql+=",tb as (select spS1,spUID,Information,ID,UID,PUID,DateTime,Author,RowNum=row_number() over (order by ID DESC) from [TABLE-20008858-@S1] join screening_participant on spS1=convert(varchar,UID) )";
+		    sql+="select spS1,spUID,UID,Information,ID,PUID,DateTime,Author,RowNum from tb where RowNum between @I6 and @I7";
+		    var sql_n="select count(ID) from [TABLE-20008858-@S1]";
+		    _req={cmd:'query_records',db_pid:_db_pid,sql:sql,sql_n:sql_n,s1:'"'+$('#keyword__ID').val()+'"',I:$('#I__ID').text(),page_size:$('#page_size__ID').val()}
+		}
+		*/
+	    //-------------------------------------
+		_set_req=function(){
+			var sql="with screening_participant as (select spS1=S1,spUID=convert(varchar,UID) from [TABLE-20009058] ) ";
+		    sql+=",reg as (select Information,ID,UID,PUID,DateTime,Author from [TABLE-20008858-@S1] ) ";
+			sql+=",tb as (select spS1,spUID,Information,ID,UID,PUID,DateTime,Author,RowNum=row_number() over (order by ID DESC) from reg join screening_participant on convert(varchar,UID)=spS1) ";
+		    sql+="select Information,spS1,spUID,UID,ID,PUID,DateTime,Author,RowNum from tb where RowNum between @I6 and @I7";
+		    var sql_n="select count(ID) from [TABLE-20008858-@S1]";
 		    _req={cmd:'query_records',db_pid:_db_pid,sql:sql,sql_n:sql_n,s1:'"'+$('#keyword__ID').val()+'"',I:$('#I__ID').text(),page_size:$('#page_size__ID').val()}
 		}
 	    //-------------------------------------
