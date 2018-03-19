@@ -1,7 +1,0 @@
-{
-	"modules":
-	{
-		"home":	          						{"url":"/modules/home.html", "name_for_search":"Home page"},
-		"registration-record":        			{"table_id":"20008858",      "url":"/modules/task/registration-records.html"}
-	}
-}
